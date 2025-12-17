@@ -1,4 +1,5 @@
 "use client";
+
 import React, {
   createContext,
   Dispatch,
@@ -6,6 +7,9 @@ import React, {
   SetStateAction,
   useState,
 } from "react";
+import { Socket } from "socket.io-client";
+
+/* -------------------- Types -------------------- */
 
 export type User = {
   socketId: string;
@@ -25,12 +29,14 @@ export type Message = {
 
 export type UserMap = Map<string, User>;
 
-type SocketContextType = {
-  socket: null;
+export type SocketContextType = {
+  socket: Socket | null;
   users: UserMap;
   setUsers: Dispatch<SetStateAction<UserMap>>;
   msgs: Message[];
 };
+
+/* -------------------- Initial State -------------------- */
 
 const INITIAL_STATE: SocketContextType = {
   socket: null,
@@ -39,16 +45,34 @@ const INITIAL_STATE: SocketContextType = {
   msgs: [],
 };
 
+/* -------------------- Context -------------------- */
+
 export const SocketContext =
   createContext<SocketContextType>(INITIAL_STATE);
 
-const SocketContextProvider = ({ children }: { children: ReactNode }) => {
+/* -------------------- Provider -------------------- */
+
+const SocketContextProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   const [users, setUsers] = useState<UserMap>(new Map());
-  const [msgs] = useState<Message[]>([]);
+  const [msgs, setMsgs] = useState<Message[]>([]);
+  const [socket, setSocket] = useState<Socket | null>(null);
+
+  // NOTE:
+  // Socket connection logic (io()) can be added later inside useEffect
+  // For now, typing is fixed and build will succeed
 
   return (
     <SocketContext.Provider
-      value={{ socket: null, users, setUsers, msgs }}
+      value={{
+        socket,
+        users,
+        setUsers,
+        msgs,
+      }}
     >
       {children}
     </SocketContext.Provider>
