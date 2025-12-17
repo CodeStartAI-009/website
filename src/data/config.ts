@@ -1,48 +1,52 @@
 const config = {
-  title: "Abhijit Zende | AI Enthusiast",
+  title: "CodeStartAI | AI & DevOps Engineer",
+
   description: {
-    long: "Explore the portfolio of Abhijit, a Computer Science Engineer with 1.5 year experience in Devlopment, DevOps & Database management with hands-on experience in deploying & automating workflows, & collaborating with foreign clients. Strong analytical skills, effective communication, and a team-oriented approach to driving process improvements and delivering results.",
+    long:
+      "Explore CodeStartAI — the portfolio of Varun, a Computer Science Engineer with experience in Development, DevOps, and Database Management. Skilled in deploying scalable systems, automating workflows, and building AI-driven solutions. Passionate about cloud-native architectures, DevSecOps, and real-world problem solving.",
     short:
-      "Discover the portfolio of Abhijit, a AI enthusiast solving real life problems in DevOps and Development.",
+      "CodeStartAI — portfolio of Varun, an AI & DevOps engineer building intelligent, scalable systems.",
   },
+
   keywords: [
-    "Abhijit",
-    "Abhijit Zende",
-    "abhijitzende",
-    "abhijitzende.com",
-    "Abhijit Zende portfolio",
-    "portfolio",
-    "DevOps",
-    "Devlopment",
-    "Database",
-    "AI Docker file optimizer",
-    "Finance me",
-    "creative technologist",
-    "web development",
-    "interactive websites",
-    // "GSAP",
-    // "React",
-    // "Next.js",
-    // "Spline",
-    // "Framer Motion",
-    "AWS",
+    "Varun",
+    "Varun portfolio",
+    "CodeStartAI",
+    "Code Start AI",
+    "CodeStartAI portfolio",
+    "AI Engineer",
+    "DevOps Engineer",
     "DevSecOps",
     "AIOps",
+    "AWS",
     "Azure",
+    "Docker",
+    "CI/CD",
+    "Automation",
+    "Web Development",
+    "Database Management",
   ],
-  author: "Abhijit Zende",
-  email: "abhijitzende75@gmail.com",
-  site: "https://abhijitzende.com",
+
+  /** Personal name (use this in Hero if you want your name) */
+  author: "Code Start_AI",
+
+  /** Brand / alias */
+  brand: "CodeStartAI",
+
+  email: "2300090189csitelge@gmail.com",
+  site: "", // change if this is not yours
 
   get ogImg() {
-    return this.site + "/assets/seo/og-image.png";
+    return `${this.site}/assets/seo/og-image.png`;
   },
+
   social: {
-    twitter: "https://x.com/_Abhi_Speaks/",
-    linkedin: "https://www.linkedin.com/in/zende-abhijit/",
-    instagram: "https://www.instagram.com/_.celestial_abhi._/",
-    facebook: "https://www.facebook.com/profile.php?id=100010029821759",
-    github: "https://github.com/Abhiz2411/",
+    twitter: "https://x.com/CodeStartAI",
+    linkedin: "https://www.linkedin.com", // replace with your profile
+    instagram: "https://www.instagram.com", // replace
+    facebook: "https://www.facebook.com",
+    github: "https://github.com/CodeStartAI-009",
   },
 };
+
 export { config };

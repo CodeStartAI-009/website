@@ -5,40 +5,56 @@ import { z } from "zod";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-const Email = z.object({
+const EmailSchema = z.object({
   fullName: z.string().min(2, "Full name is invalid!"),
-  email: z.string().email({ message: "Email is invalid!" }),
+  email: z.string().email("Email is invalid!"),
   message: z.string().min(10, "Message is too short!"),
 });
+
 export async function POST(req: Request) {
   try {
+    // 🔍 DEBUG
+    console.log("RESEND_API_KEY:", process.env.RESEND_API_KEY);
+    console.log("TO EMAIL:", config.email);
+
     const body = await req.json();
-    console.log(body);
-    const {
-      success: zodSuccess,
-      data: zodData,
-      error: zodError,
-    } = Email.safeParse(body);
-    if (!zodSuccess)
-      return Response.json({ error: zodError?.message }, { status: 400 });
+    console.log("BODY:", body);
 
-    const { data: resendData, error: resendError } = await resend.emails.send({
-      from: "Porfolio <onboarding@resend.dev>",
-      to: [config.email],
-      subject: "Contact me from portfolio",
-      react: EmailTemplate({
-        fullName: zodData.fullName,
-        email: zodData.email,
-        message: zodData.message,
-      }),
-    });
-
-    if (resendError) {
-      return Response.json({ resendError }, { status: 500 });
+    const parsed = EmailSchema.safeParse(body);
+    if (!parsed.success) {
+      return Response.json(
+        { error: parsed.error.flatten().fieldErrors },
+        { status: 400 }
+      );
     }
 
-    return Response.json(resendData);
-  } catch (error) {
-    return Response.json({ error }, { status: 500 });
+    const { fullName, email, message } = parsed.data;
+
+    // ✅ TEMPORARILY USE TEXT EMAIL (MOST STABLE)
+    const { data, error } = await resend.emails.send({
+      from: "Resend <onboarding@resend.dev>",
+      to: [config.email],
+      subject: "Contact from Portfolio",
+      text: `
+Name: ${fullName}
+Email: ${email}
+
+Message:
+${message}
+      `,
+    });
+
+    if (error) {
+      console.error("RESEND ERROR:", error);
+      return Response.json({ error }, { status: 500 });
+    }
+
+    return Response.json({ success: true, data });
+  } catch (err) {
+    console.error("API ERROR:", err);
+    return Response.json(
+      { error: "Internal Server Error" },
+      { status: 500 }
+    );
   }
 }
